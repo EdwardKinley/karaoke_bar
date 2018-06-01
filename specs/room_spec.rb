@@ -1,7 +1,7 @@
 require("minitest/autorun")
 require_relative("../room.rb")
 require_relative("../guest.rb")
-require_relative("../room.rb")
+require_relative("../song.rb")
 
 class RoomTest < MiniTest::Test
 
@@ -10,6 +10,8 @@ class RoomTest < MiniTest::Test
     @room2 = Room.new("Room 2", 8)
     @guest1 = Guest.new("Paul")
     @guest2 = Guest.new("Art")
+    @song1 = Song.new("A Simple Desultory Philippic", "Simon & Garfunkel")
+    @song2 = Song.new("Bridge over Troubled Water", "Simon & Garfunkel")
   end
 
   def test_setup
