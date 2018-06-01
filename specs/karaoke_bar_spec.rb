@@ -12,12 +12,12 @@ class KaraokeBarTest < MiniTest::Test
     @room3 = Room.new("Room 3", 2, 10)
     rooms = [@room1, @room2, @room3]
     @karaoke_bar1 = KaraokeBar.new("CodeClan Caraoke", rooms)
-    @guest1 = Guest.new("Paul", 100)
-    @guest2 = Guest.new("Art", 10)
-    @guest3 = Guest.new("Roy", 20)
-    @guest4 = Guest.new("Al", 5)
     @song1 = Song.new("A Simple Desultory Philippic", "Simon & Garfunkel")
     @song2 = Song.new("Bridge over Troubled Water", "Simon & Garfunkel")
+    @guest1 = Guest.new("Paul", 100, @song1)
+    @guest2 = Guest.new("Art", 10, @song2)
+    @guest3 = Guest.new("Roy", 20, @song1)
+    @guest4 = Guest.new("Al", 5, @song2)
   end
 
   def test_setup

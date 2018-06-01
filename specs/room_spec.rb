@@ -8,10 +8,10 @@ class RoomTest < MiniTest::Test
   def setup
     @room1 = Room.new("Room 1", 10, 10)
     @room2 = Room.new("Room 2", 8, 12)
-    @guest1 = Guest.new("Paul", 100)
-    @guest2 = Guest.new("Art", 10)
     @song1 = Song.new("A Simple Desultory Philippic", "Simon & Garfunkel")
     @song2 = Song.new("Bridge over Troubled Water", "Simon & Garfunkel")
+    @guest1 = Guest.new("Paul", 100, @song1)
+    @guest2 = Guest.new("Art", 10, @song2)
   end
 
   def test_setup
@@ -20,6 +20,7 @@ class RoomTest < MiniTest::Test
     assert_equal(12, @room2.fee)
     assert_equal([], @room2.guests)
     assert_equal([], @room1.songs)
+    assert_equal(@song1, @guest1.fave_song)
   end
 
   def test_check_guest_in
