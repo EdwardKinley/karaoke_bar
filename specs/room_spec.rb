@@ -1,6 +1,7 @@
 require("minitest/autorun")
 require_relative("../room.rb")
 require_relative("../guest.rb")
+require_relative("../room.rb")
 
 class RoomTest < MiniTest::Test
 
@@ -20,14 +21,20 @@ class RoomTest < MiniTest::Test
   def test_check_guest_in
     @room1.check_guest_in(@guest1)
     assert_equal(1, @room1.guests.count)
-    assert_equal(true, @room1.guests.include?(@guest1))
+    assert(@room1.guests.include?(@guest1))
   end
 
   def test_check_guest_out
     @room1.check_guest_in(@guest2)
     @room1.check_guest_out(@guest2)
     assert_equal(0, @room1.guests.count)
-    assert_equal(false, @room1.guests.include?(@guest2))
+    assert(!@room1.guests.include?(@guest2))
+  end
+
+  def test_add_song
+    @room1.add_song(@song1)
+    assert_equal(1, @room1.songs.count)
+    assert(@room1.songs.include?(@song1))
   end
 
 end
