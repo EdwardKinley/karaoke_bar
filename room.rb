@@ -10,7 +10,7 @@ class Room
   end
 
   def check_guest_in(guest)
-    @guests.push(guest)
+    @guests.push(guest) if @guests.count < @capacity
   end
 
   def check_guest_out(guest)

@@ -19,4 +19,8 @@ class KaraokeBar
     room.add_song(song)
   end
 
+  def guest_can_fit_in_room?(room, guest)
+    return room.guests.count < room.capacity
+  end
+
 end
