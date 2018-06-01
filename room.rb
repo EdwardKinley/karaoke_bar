@@ -1,16 +1,20 @@
 class Room
 
-  attr_reader(:name, :capacity, :guests, :songs)
+  attr_reader(:name, :capacity, :fee, :guests, :songs)
 
-  def initialize(name, capacity, guests = [], songs = [])
+  def initialize(name, capacity, fee, guests = [], songs = [])
     @name = name
     @capacity = capacity
+    @fee = fee
     @guests = guests
     @songs = songs
   end
 
   def check_guest_in(guest)
-    @guests.push(guest) if @guests.count < @capacity
+    return if @guests.count >= @capacity
+    return if guest.funds < @fee
+    @guests.push(guest)
+    guest.funds -= @fee
   end
 
   def check_guest_out(guest)

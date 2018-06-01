@@ -7,14 +7,15 @@ require_relative("../song.rb")
 class KaraokeBarTest < MiniTest::Test
 
   def setup
-    @room1 = Room.new("Room 1", 10)
-    @room2 = Room.new("Room 2", 8)
-    @room3 = Room.new("Room 3", 2)
-    @rooms = [@room1, @room2, @room3]
-    @karaoke_bar1 = KaraokeBar.new("CodeClan Caraoke", @rooms)
-    @guest1 = Guest.new("Paul")
-    @guest2 = Guest.new("Art")
-    @guest3 = Guest.new("Roy")
+    @room1 = Room.new("Room 1", 10, 10)
+    @room2 = Room.new("Room 2", 8, 12)
+    @room3 = Room.new("Room 3", 2, 10)
+    rooms = [@room1, @room2, @room3]
+    @karaoke_bar1 = KaraokeBar.new("CodeClan Caraoke", rooms)
+    @guest1 = Guest.new("Paul", 100)
+    @guest2 = Guest.new("Art", 10)
+    @guest3 = Guest.new("Roy", 20)
+    @guest4 = Guest.new("Al", 5)
     @song1 = Song.new("A Simple Desultory Philippic", "Simon & Garfunkel")
     @song2 = Song.new("Bridge over Troubled Water", "Simon & Garfunkel")
   end
@@ -28,10 +29,26 @@ class KaraokeBarTest < MiniTest::Test
     assert_equal(8, @karaoke_bar1.rooms[1].capacity)
   end
 
-  def test_check_guest_in_to_room
+  def test_check_guest_in_to_room__okay
     @karaoke_bar1.check_guest_in_to_room(@room1, @guest1)
     assert(@karaoke_bar1.rooms[0].guests.include?(@guest1))
     assert_equal("Paul", @karaoke_bar1.rooms[0].guests[0].name)
+  end
+
+  def test_check_guest_in_to_room__too_full
+    @karaoke_bar1.check_guest_in_to_room(@room3, @guest1)
+    @karaoke_bar1.check_guest_in_to_room(@room3, @guest1)
+    @karaoke_bar1.check_guest_in_to_room(@room3, @guest1)
+    assert(@karaoke_bar1.rooms[2].guests.include?(@guest1))
+    assert(!@karaoke_bar1.rooms[2].guests.include?(@guest3))
+    assert_equal(2, @karaoke_bar1.rooms[2].guests.count)
+    assert_equal("Paul", @karaoke_bar1.rooms[2].guests[0].name)
+  end
+
+  def test_check_guest_in_to_room__too_broke
+    @karaoke_bar1.check_guest_in_to_room(@room1, @guest4)
+    assert(!@karaoke_bar1.rooms[0].guests.include?(@guest4))
+    assert_equal(0, @karaoke_bar1.rooms[0].guests.count)
   end
 
   def test_check_guest_out_of_room
@@ -57,6 +74,7 @@ class KaraokeBarTest < MiniTest::Test
     @karaoke_bar1.check_guest_in_to_room(@room3, @guest1)
     @karaoke_bar1.check_guest_in_to_room(@room3, @guest2)
     assert(!@karaoke_bar1.guest_can_fit_in_room?(@room3, @guest3))
+    @karaoke_bar1.check_guest_in_to_room(@room3, @guest3)
     assert_equal(2, @karaoke_bar1.rooms[2].guests.count)
   end
 
