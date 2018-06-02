@@ -1,11 +1,14 @@
 class Room
 
-  attr_reader(:name, :capacity, :fee, :guests, :songs)
+  attr_reader(:name, :capacity, :fee, :funds, :guests, :songs)
 
-  def initialize(name, capacity, fee, guests = [], songs = [])
+  attr_writer(:fee, :funds, :guests)
+
+  def initialize(name, capacity, fee, funds = 0, guests = [], songs = [])
     @name = name
     @capacity = capacity
     @fee = fee
+    @funds = funds
     @guests = guests
     @songs = songs
   end
@@ -15,6 +18,8 @@ class Room
     return if guest.funds < @fee
     @guests.push(guest)
     guest.funds -= @fee
+    @funds += @fee
+    return "Whoo!" if @songs.include?(guest.fave_song)
   end
 
   def check_guest_out(guest)

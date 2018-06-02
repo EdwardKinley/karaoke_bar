@@ -78,5 +78,36 @@ class KaraokeBarTest < MiniTest::Test
     assert_equal(2, @karaoke_bar1.rooms[2].guests.count)
   end
 
+  def test_fire_alarm
+    @karaoke_bar1.check_guest_in_to_room(@room1, @guest1)
+    @karaoke_bar1.check_guest_in_to_room(@room1, @guest2)
+    @karaoke_bar1.check_guest_in_to_room(@room3, @guest3)
+    @karaoke_bar1.fire_alarm
+    assert_equal([], @karaoke_bar1.rooms[0].guests)
+    assert_equal([], @karaoke_bar1.rooms[1].guests)
+    assert_equal([], @karaoke_bar1.rooms[2].guests)
+  end
+
+  def test_add_song_to_every_room
+    @karaoke_bar1.add_song_to_room(@room1, @song1)
+    @karaoke_bar1.add_song_to_every_room(@song2)
+    assert_equal(2, @room1.songs.count)
+    assert_equal(1, @room2.songs.count)
+  end
+
+  def test_make_room_fees_half_price
+    @karaoke_bar1.make_room_fees_half_price
+    assert_equal(5, @karaoke_bar1.rooms[0].fee)
+  end
+
+  def test_adjust_room_fees__reduce
+    @karaoke_bar1.adjust_room_fees(0.75)
+    assert_equal(7.5, @karaoke_bar1.rooms[0].fee)
+  end
+
+  def test_adjust_room_fees__increase
+    @karaoke_bar1.adjust_room_fees(1.5)
+    assert_equal(18, @karaoke_bar1.rooms[1].fee)
+  end
 
 end

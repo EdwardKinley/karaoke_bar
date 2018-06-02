@@ -28,6 +28,13 @@ class RoomTest < MiniTest::Test
     assert_equal(1, @room1.guests.count)
     assert(@room1.guests.include?(@guest1))
     assert_equal(90, @guest1.funds)
+    assert_equal(10, @room1.funds)
+  end
+
+  def test_check_guest_in__response
+    @room1.add_song(@song1)
+    assert_equal("Whoo!", @room1.check_guest_in(@guest1))
+    assert_nil(@room1.check_guest_in(@guest2))
   end
 
   def test_check_guest_out
